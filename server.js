@@ -18,11 +18,13 @@ app.use(cors({
     origin: 'https://gearhub.vercel.app', // Adjust origin as needed
 }));
 
-// Set Content Security Policy to allow PayPal scripts and blob URLs
 app.use((req, res, next) => {
     res.setHeader(
         "Content-Security-Policy",
-        "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com blob:;"
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com https://*.paypal.com https://*.paypalobjects.com blob:; " + // Added blob: here
+        "connect-src 'self' https://*.paypal.com;" +  // Allow connections to PayPal APIs
+        "style-src 'self' 'unsafe-inline';" // Allow inline styles
     );
     next();
 });
@@ -39,13 +41,14 @@ const client = new Client({
         oAuthClientSecret: REACT_APP_PAYPAL_CLIENT_SECRET,
     },
     timeout: 0,
-    environment: Environment.Live,
+    environment: Environment.Live, // This automatically uses the live PayPal endpoint
     logging: {
         logLevel: LogLevel.Info,
         logRequest: { logBody: true },
         logResponse: { logHeaders: true },
     },
 });
+
 
 const ordersController = new OrdersController(client);
 const paymentsController = new PaymentsController(client);
