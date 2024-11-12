@@ -42,6 +42,9 @@ const client = new Client({
 const ordersController = new OrdersController(client);
 const paymentsController = new PaymentsController(client);
 
+// load api for debugging
+console.log(process.env.REACT_APP_PAYPAL_CLIENT_ID, process.env.REACT_APP_PAYPAL_CLIENT_SECRET);
+
 /**
  * Create an order to start the transaction.
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
