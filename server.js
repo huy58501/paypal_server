@@ -18,7 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 // Allow cross-origin requests from your React app
 app.use(cors({
-    origin: 'https://gearhub.vercel.app', // or use "*" to allow all origins
+    origin: '*',  // Allows all origins (for development only)
 }));
 const {
     PAYPAL_CLIENT_ID,
@@ -73,10 +73,11 @@ const createOrder = async (cart) => {
             httpStatusCode: httpResponse.statusCode,
         };
     } catch (error) {
+        console.error("Error creating order:", error);
         if (error instanceof ApiError) {
-            // const { statusCode, headers } = error;
-            throw new Error(error.message);
+            console.error("PayPal API error response:", error.response);  // Log PayPal-specific error details
         }
+        throw error;
     }
 };
 
