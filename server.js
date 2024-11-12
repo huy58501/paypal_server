@@ -28,8 +28,8 @@ const {
 
 const client = new Client({
     clientCredentialsAuthCredentials: {
-        oAuthClientId: PAYPAL_CLIENT_ID,
-        oAuthClientSecret: PAYPAL_CLIENT_SECRET,
+        oAuthClientId: REACT_APP_PAYPAL_CLIENT_ID,
+        oAuthClientSecret: REACT_APP_PAYPAL_CLIENT_SECRET,
     },
     timeout: 0,
     environment: Environment.Live,
