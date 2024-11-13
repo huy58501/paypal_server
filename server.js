@@ -21,11 +21,9 @@ app.use(cors({
     origin: 'https://gearhub.vercel.app',  // Allows requests only from 'https://gearhub.vercel.app'
 }));
 
-const {
-    PAYPAL_CLIENT_ID,
-    PAYPAL_CLIENT_SECRET,
-    PORT = 8080,
-} = process.env;
+const PAYPAL_CLIENT_ID = "AZ1uE3g27QxPPuSWGmKuBj6NQ1Er_mSjztaw8y12ZF7YtR4F1qgNKY2ERfLdufWKp6O-OPuxJcRrVInC";
+const PAYPAL_CLIENT_SECRET = "EB-sbyMcAAqr4X1Fu3xp0mQ9sZvg4eZuEFMfwfbtw5LEO8Xhm_5aHpIsnPIEqJwgDwUSpzKA6NtA7v7T";
+const PORT = 8080; // Use default or hardcode as needed
 
 const client = new Client({
     clientCredentialsAuthCredentials: {
@@ -39,7 +37,8 @@ const client = new Client({
         logRequest: { logBody: true },
         logResponse: { logHeaders: true },
     },
-}); 
+});
+
 const ordersController = new OrdersController(client);
 const paymentsController = new PaymentsController(client);
 
