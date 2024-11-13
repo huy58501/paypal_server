@@ -18,7 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 // Allow cross-origin requests from your React app
 app.use(cors({
-    origin: 'https://gearhub.vercel.app/checkout',  // Allows requests only from 'https://gearhub.vercel.app'
+    origin: 'https://gearhub.vercel.app',  // Allows requests only from 'https://gearhub.vercel.app'
 }));
 
 const {
