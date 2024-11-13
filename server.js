@@ -18,7 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 // Allow cross-origin requests from your React app
 app.use(cors({
-    origin: 'https://gearhub.vercel.app',  // Allows requests only from 'https://gearhub.vercel.app'
+    origin: 'https://gearhub.vercel.app/checkout',  // Allows requests only from 'https://gearhub.vercel.app'
 }));
 
 const {
@@ -75,8 +75,8 @@ const createOrder = async (cart) => {
         };
     } catch (error) {
         console.error("Error creating order:", error);
-        if (error instanceof ApiError) {
-            console.error("PayPal API error response:", error.response);  // Log PayPal-specific error details
+        if (error instanceof ApiError && error.response) {
+            console.error("Detailed PayPal API response:", error.response);
         }
         throw error;
     }
@@ -91,7 +91,10 @@ app.post("/api/orders", async (req, res) => {
         res.status(httpStatusCode).json(jsonResponse);
     } catch (error) {
         console.error("Failed to create order:", error);
-        res.status(500).json({ error: "Failed to create order." });
+        if (error instanceof ApiError && error.response) {
+            console.error("Detailed PayPal API response:", error.response);
+        }
+        res.status(500).json({ error: "Failed to capture order.", details: error.message || error.toString() });
     }
 });
 
@@ -133,7 +136,10 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         res.status(httpStatusCode).json(jsonResponse);
     } catch (error) {
         console.error("Failed to create order:", error);
-        res.status(500).json({ error: "Failed to capture order." });
+        if (error instanceof ApiError && error.response) {
+            console.error("Detailed PayPal API response:", error.response);
+        }
+        res.status(500).json({ error: "Failed to capture order.", details: error.message || error.toString() });
     }
 });
 
