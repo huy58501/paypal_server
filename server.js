@@ -18,8 +18,9 @@ const app = express();
 app.use(bodyParser.json());
 // Allow cross-origin requests from your React app
 app.use(cors({
-    origin: '*',  // Allows all origins (for development only)
+    origin: 'https://gearhub.vercel.app',  // Allows requests only from 'https://gearhub.vercel.app'
 }));
+
 const {
     PAYPAL_CLIENT_ID,
     PAYPAL_CLIENT_SECRET,
