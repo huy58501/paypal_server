@@ -34,7 +34,7 @@ const client = new Client({
         clientSecret: PAYPAL_CLIENT_SECRET,
     },
     timeout: 0,
-    environment: Environment.Live,
+    environment: Environment.Production,
     logging: {
         logLevel: LogLevel.Info,
         logRequest: { logBody: true },
