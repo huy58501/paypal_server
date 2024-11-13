@@ -45,6 +45,8 @@ const client = new Client({
 const ordersController = new OrdersController(client);
 const paymentsController = new PaymentsController(client);
 
+const environmentType = process.env.NODE_ENV === 'production' ? Environment.Live : Environment.Sandbox;
+console.log("PayPal Environment:", Environment.Live);
 console.log("PayPal Environment:", process.env.NODE_ENV);
 console.log("Client ID:", PAYPAL_CLIENT_ID ? "Set" : "Not Set");
 console.log("Client Secret:", PAYPAL_CLIENT_SECRET ? "Set" : "Not Set");
