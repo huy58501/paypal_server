@@ -50,6 +50,7 @@ console.log("Client Secret:", PAYPAL_CLIENT_SECRET ? "Set" : "Not Set");
  * Create an order to start the transaction.
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
+/* this is correct paypal with default payment at $10
 const createOrder = async (cart) => {
     const collect = {
         body: {
@@ -79,6 +80,40 @@ const createOrder = async (cart) => {
     } catch (error) {
         if (error instanceof ApiError) {
             // const { statusCode, headers } = error;
+            throw new Error(error.message);
+        }
+    }
+};
+*/
+
+const createOrder = async (cart) => {
+    const total = cart.reduce((sum, product) => sum + parseFloat(product.price) * product.quantity, 0);
+    
+    const collect = {
+        body: {
+            intent: "CAPTURE",
+            purchaseUnits: [
+                {
+                    amount: {
+                        currencyCode: "CAD",
+                        value: total.toFixed(2), // Use the total value dynamically
+                    },
+                },
+            ],
+        },
+        prefer: "return=minimal",
+    };
+
+    try {
+        const { body, ...httpResponse } = await ordersController.ordersCreate(
+            collect
+        );
+        return {
+            jsonResponse: JSON.parse(body),
+            httpStatusCode: httpResponse.statusCode,
+        };
+    } catch (error) {
+        if (error instanceof ApiError) {
             throw new Error(error.message);
         }
     }
